@@ -7,6 +7,7 @@ function App() {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    background-color: #88a0a8;
   `;
 
   return (

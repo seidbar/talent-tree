@@ -8,6 +8,7 @@ const EditButton = styled.button`
   position: absolute;
   top: 20px;
   right: 50px;
+  user-select: none;
 `;
 
 const TreeStyles = styled.div<TreeStyleProps>`
@@ -17,9 +18,10 @@ const TreeStyles = styled.div<TreeStyleProps>`
   justify-content: space-between;
   width: ${(props) => (props.width ? `${props.width}px` : "400px")};
   height: 90vh;
-  padding: 10px;
-  background-color: #f5eedc;
-  box-shadow: 5px 1px 17px 0px rgba(0, 0, 0, 0.41);
+  padding: 20px;
+  box-shadow: 0px 10px 66px -5px rgba(0, 0, 0, 0.1);
+  background-color: #dbd3c9;
+  border-radius: 8px;
 `;
 
 const TalentTree: FC<TalentTreeProps> = ({ talents }) => {

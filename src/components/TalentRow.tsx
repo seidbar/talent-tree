@@ -19,8 +19,10 @@ const TalentRow: FC<TalentRowProps> = ({ children, editMode }) => {
 
   const changeVisbility = (state: boolean) => {
     if (editMode) {
-      setAddButtonVisibility(state);
-      updateXarrow();
+      setTimeout(() => {
+        setAddButtonVisibility(state);
+        updateXarrow();
+      }, 200);
     }
   };
 

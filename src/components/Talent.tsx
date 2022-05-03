@@ -11,10 +11,11 @@ const TalentStyles = styled.div<TalentStylesProps>`
   width: 80px;
   height: 80px;
   border-radius: 3px;
-  border: solid black 1px;
-  background: ${(props) => (props.completed ? "#97BFB4" : "none")};
+  border: solid #546a76 1px;
+  background: ${(props) => (props.completed ? "#546A76" : "none")};
+  color: ${(props) => (props.completed ? "white" : "black")};
   user-select: none;
-  transition: background 1s;
+  transition: background 1s, color 1s;
 `;
 
 const TalentNode: FC<Talent> = ({ name, complete, id, parent, editMode }) => {
@@ -26,7 +27,7 @@ const TalentNode: FC<Talent> = ({ name, complete, id, parent, editMode }) => {
 
   return (
     <>
-      {parent && <Xarrow start={parent} end={id} color="#97BFB4" />}
+      {parent && <Xarrow start={parent} end={id} color="#546A76" />}
       <TalentStyles
         onClick={() => toggleCompletion()}
         completed={completed}
