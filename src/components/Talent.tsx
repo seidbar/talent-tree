@@ -12,21 +12,21 @@ const TalentStyles = styled.div<TalentStylesProps>`
   height: 80px;
   border-radius: 3px;
   border: solid black 1px;
-  background: ${(props) => (props.completed ? "green" : "none")};
+  background: ${(props) => (props.completed ? "#97BFB4" : "none")};
   user-select: none;
   transition: background 1s;
 `;
 
-const TalentNode: FC<Talent> = ({ name, complete, id, parent }) => {
+const TalentNode: FC<Talent> = ({ name, complete, id, parent, editMode }) => {
   const [completed, setCompleted] = useState<boolean>(complete ?? false);
 
   const toggleCompletion = () => {
-    setCompleted((prevState) => !prevState);
+    if (!editMode) setCompleted((prevState) => !prevState);
   };
 
   return (
     <>
-      {parent && <Xarrow start={parent} end={id} color="#5D6D7E" />}
+      {parent && <Xarrow start={parent} end={id} color="#97BFB4" />}
       <TalentStyles
         onClick={() => toggleCompletion()}
         completed={completed}
@@ -46,7 +46,8 @@ type TalentStylesProps = {
 
 export type Talent = {
   name: string;
+  id: string;
   complete?: boolean;
   parent?: string;
-  id: string;
+  editMode?: boolean;
 };
