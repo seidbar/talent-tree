@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
+import Xarrow from "react-xarrows";
 
 const TalentStyles = styled.div<TalentStylesProps>`
   display: flex;
@@ -15,7 +16,7 @@ const TalentStyles = styled.div<TalentStylesProps>`
   user-select: none;
 `;
 
-const TalentNode: FC<Talent> = ({ name, complete, id }) => {
+const TalentNode: FC<Talent> = ({ name, complete, id, parent }) => {
   const [completed, setCompleted] = useState<boolean>(complete ?? false);
 
   const toggleCompletion = () => {
@@ -23,13 +24,16 @@ const TalentNode: FC<Talent> = ({ name, complete, id }) => {
   };
 
   return (
-    <TalentStyles
-      onClick={() => toggleCompletion()}
-      completed={completed}
-      id={id}
-    >
-      <p>{name}</p>
-    </TalentStyles>
+    <>
+      {parent && <Xarrow start={parent} end={id} />}
+      <TalentStyles
+        onClick={() => toggleCompletion()}
+        completed={completed}
+        id={id}
+      >
+        <p>{name}</p>
+      </TalentStyles>
+    </>
   );
 };
 
@@ -42,5 +46,6 @@ type TalentStylesProps = {
 export type Talent = {
   name: string;
   complete?: boolean;
+  parent?: string;
   id: string;
 };

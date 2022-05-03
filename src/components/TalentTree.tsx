@@ -28,20 +28,15 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
       <RowStyles>
         <TalentNode name="Talent 1" complete id="test" />
       </RowStyles>
-      <TalentNode name="Talent 2" id="test2" />
+      <TalentNode name="Talent 2" id="test2" parent="test" />
       <RowStyles>
-        <TalentNode name="Talent 3" id="test3" />
-        <TalentNode name="Talent 4" id="test4" />
+        <TalentNode name="Talent 3" id="test3" parent="test2" />
+        <TalentNode name="Talent 4" id="test4" parent="test2" />
       </RowStyles>
       <RowStyles>
-        <TalentNode name="Talent 5" id="test5" />
-        <TalentNode name="Talent 6" id="test6" />
+        <TalentNode name="Talent 5" id="test5" parent="test3" />
+        <TalentNode name="Talent 6" id="test6" parent="test4" />
       </RowStyles>
-      <Xarrow start="test" end="test2" />
-      <Xarrow start="test2" end="test3" />
-      <Xarrow start="test2" end="test4" />
-      <Xarrow start="test3" end="test5" />
-      <Xarrow start="test4" end="test6" />
     </TreeStyles>
   );
 };
