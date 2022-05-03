@@ -11,6 +11,7 @@ const TreeStyles = styled.div<TreeStyleProps>`
   border: 1px solid black;
   width: ${(props) => (props.width ? `${props.width}px` : "400px")};
   height: 90vh;
+  padding: 10px;
 `;
 
 const RowStyles = styled.div`
