@@ -14,6 +14,7 @@ const TalentStyles = styled.div<TalentStylesProps>`
   border: solid black 1px;
   background: ${(props) => (props.completed ? "green" : "none")};
   user-select: none;
+  transition: background 1s;
 `;
 
 const TalentNode: FC<Talent> = ({ name, complete, id, parent }) => {
@@ -25,7 +26,7 @@ const TalentNode: FC<Talent> = ({ name, complete, id, parent }) => {
 
   return (
     <>
-      {parent && <Xarrow start={parent} end={id} />}
+      {parent && <Xarrow start={parent} end={id} color="#5D6D7E" />}
       <TalentStyles
         onClick={() => toggleCompletion()}
         completed={completed}
