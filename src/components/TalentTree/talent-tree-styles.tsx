@@ -19,10 +19,12 @@ export const AddRowButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid #546a76 1px;
   width: 100%;
   height: 80px;
   cursor: pointer;
+  border: none;
+  color: white;
+  font-size: 25px;
   transition: background 200ms;
   background-color: #546a76;
   &:hover {

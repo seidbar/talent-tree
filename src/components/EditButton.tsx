@@ -21,12 +21,13 @@ const ButtonStyles = styled.button`
   &:hover {
     background-color: #88a0a8;
   }
+  transition: background 200ms;
 `;
 
-const EditButton: FC<EditButtonProps> = ({ onClick, editMode }) => {
+const EditButton: FC<EditButtonProps> = ({ onClick, open }) => {
   return (
     <ButtonStyles onClick={onClick} type="button" aria-label="Edit Tree">
-      {editMode ? <RiCloseLine /> : <RiPencilFill />}
+      {open ? <RiCloseLine /> : <RiPencilFill />}
     </ButtonStyles>
   );
 };
@@ -35,5 +36,5 @@ export default EditButton;
 
 type EditButtonProps = {
   onClick: () => void;
-  editMode: boolean;
+  open: boolean;
 };

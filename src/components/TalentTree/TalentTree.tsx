@@ -14,6 +14,7 @@ const Layout = styled.div`
   justify-content: space-between;
   min-height: 100vh;
   background-color: #88a0a8;
+  overflow: hidden;
 `;
 
 const Content = styled.section`
@@ -25,16 +26,18 @@ const Content = styled.section`
 `;
 
 const EditMenu = styled.div<EditMenuProps>`
+  position: relative;
   background-color: white;
   width: ${(props) => (props.open ? "400px" : 0)};
   transition: 1s;
-  right: 400px;
+  right: ${(props) => (props.open ? 0 : "-400px")};
 `;
 
 const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   const [editMode, setEditMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleEditMode = () => {
+    if (editMode) setSidebarOpen(false);
     setEditMode((prevState) => !prevState);
   };
 
@@ -75,7 +78,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
       <Content>
         <Xwrapper>
           <TreeStyles>
-            <EditButton onClick={() => toggleEditMode()} editMode={editMode} />
+            <EditButton onClick={() => toggleEditMode()} open={editMode} />
             {rows.map((row) => (
               <TalentRow
                 editMode={editMode}
@@ -93,7 +96,9 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
           </TreeStyles>
         </Xwrapper>
       </Content>
-      <EditMenu open={sidebarOpen}></EditMenu>
+      <EditMenu open={sidebarOpen}>
+        <EditButton onClick={() => setSidebarOpen(false)} open={sidebarOpen} />
+      </EditMenu>
     </Layout>
   );
 };
