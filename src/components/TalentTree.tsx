@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TalentNode, { Talent } from "./Talent";
 import TalentRow from "./TalentRow";
 import { Xwrapper } from "react-xarrows";
+import { mockedTree } from "../mockData";
 
 const EditButton = styled.button`
   position: absolute;
@@ -24,9 +25,29 @@ const TreeStyles = styled.div<TreeStyleProps>`
   border-radius: 8px;
 `;
 
+const AddRowButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid #546a76 1px;
+  width: 100%;
+  height: 80px;
+  cursor: pointer;
+  color: white;
+  font-size: 40px;
+  background-color: #88a0a8;
+  &:hover {
+    background-color: #546a76;
+  }
+`;
+
 const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   const [editMode, setEditMode] = useState(false);
   const toggleEditMode = () => setEditMode((prevState) => !prevState);
+
+  const [rows, setRows] = useState(mockedTree);
+
+  const addRow = () => {};
 
   return (
     <>
@@ -35,50 +56,20 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
       </EditButton>
       <Xwrapper>
         <TreeStyles>
-          <TalentRow editMode={editMode}>
-            <TalentNode
-              name="Talent 1"
-              complete
-              id="test"
-              editMode={editMode}
-            />
-          </TalentRow>
-          <TalentRow editMode={editMode}>
-            <TalentNode
-              name="Talent 2"
-              id="test2"
-              parent="test"
-              editMode={editMode}
-            />
-          </TalentRow>
-          <TalentRow editMode={editMode}>
-            <TalentNode
-              name="Talent 3"
-              id="test3"
-              parent="test2"
-              editMode={editMode}
-            />
-            <TalentNode
-              name="Talent 4"
-              id="test4"
-              parent="test2"
-              editMode={editMode}
-            />
-          </TalentRow>
-          <TalentRow editMode={editMode}>
-            <TalentNode
-              name="Talent 5"
-              id="test5"
-              parent="test3"
-              editMode={editMode}
-            />
-            <TalentNode
-              name="Talent 6"
-              id="test6"
-              parent="test4"
-              editMode={editMode}
-            />
-          </TalentRow>
+          {rows.map((row) => (
+            <TalentRow editMode={editMode}>
+              {row.nodes.map((node) => (
+                <TalentNode
+                  name={node.name}
+                  complete={node.completed}
+                  id={node.id}
+                  editMode={editMode}
+                  parent={node.parent}
+                />
+              ))}
+            </TalentRow>
+          ))}
+          {editMode && <AddRowButton>+</AddRowButton>}
         </TreeStyles>
       </Xwrapper>
     </>
