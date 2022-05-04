@@ -1,38 +1,25 @@
-import { FC, ReactNode, useState } from "react";
-import { useXarrow } from "react-xarrows";
+import { FC, ReactNode } from "react";
 import styled from "styled-components";
-import AddNode from "./AddNode";
+import AddNode from "./AddNodeButton";
+import { useXarrow } from "react-xarrows";
 
-const RowStyles = styled.div`
+const RowStyles = styled.div<RowStyleProps>`
   display: flex;
   align-self: stretch;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: ${(props) =>
+    props.editMode ? "space-between" : "space-around"};
   gap: 10px;
 `;
 
-const TalentRow: FC<TalentRowProps> = ({ children, editMode }) => {
-  const [addButtonVisibility, setAddButtonVisibility] =
-    useState<boolean>(false);
-
+const TalentRow: FC<TalentRowProps> = ({ children, editMode, id, addNode }) => {
+  // While this is not directly called, this will trigger a re-render on every TalentRow rerender.
+  // This could also be achieved with a useEffect hook further up the tree, but would be less snappy
   const updateXarrow = useXarrow();
-
-  const changeVisbility = (state: boolean) => {
-    if (editMode) {
-      setTimeout(() => {
-        setAddButtonVisibility(state);
-        updateXarrow();
-      }, 200);
-    }
-  };
-
   return (
-    <RowStyles
-      onMouseOver={() => changeVisbility(true)}
-      onMouseLeave={() => changeVisbility(false)}
-    >
+    <RowStyles editMode={editMode}>
       {children}
-      {addButtonVisibility && <AddNode />}
+      {editMode && <AddNode onClick={() => addNode(id)} />}
     </RowStyles>
   );
 };
@@ -42,4 +29,10 @@ export default TalentRow;
 type TalentRowProps = {
   editMode?: boolean;
   children: ReactNode | ReactNode[];
+  id: number;
+  addNode: (id: number) => void;
+};
+
+type RowStyleProps = {
+  editMode?: boolean;
 };
