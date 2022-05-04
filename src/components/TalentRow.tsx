@@ -10,6 +10,7 @@ const RowStyles = styled.div<RowStyleProps>`
   justify-content: ${(props) =>
     props.editMode ? "space-between" : "space-around"};
   gap: 10px;
+  margin: 20px 0;
 `;
 
 const TalentRow: FC<TalentRowProps> = ({ children, editMode, id, addNode }) => {

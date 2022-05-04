@@ -1,20 +1,15 @@
 import styled from "styled-components";
 
-export const EditButton = styled.button`
-  position: absolute;
-  top: 20px;
-  right: 50px;
-  user-select: none;
-`;
-
 export const TreeStyles = styled.div<TreeStyleProps>`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   width: ${(props) => (props.width ? `${props.width}px` : "400px")};
-  height: 90vh;
-  padding: 20px;
+  min-height: 80vh;
+  padding: 40px 20px;
+  margin: 20px 0;
   box-shadow: 0px 10px 66px -5px rgba(0, 0, 0, 0.1);
   background-color: #dbd3c9;
   border-radius: 8px;

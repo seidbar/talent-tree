@@ -1,11 +1,12 @@
 import { FC, useState } from "react";
-import { EditButton, TreeStyles, AddRowButton } from "./talent-tree-styles";
+import { TreeStyles, AddRowButton } from "./talent-tree-styles";
 import TalentNode, { Talent } from "../Talent";
 import TalentRow from "../TalentRow";
 import { Xwrapper } from "react-xarrows";
 import { mockedTree } from "../../mockData";
 import PlusSign from "../PlusSign";
 import { v4 as uuidv4 } from "uuid";
+import EditButton from "../EditButton";
 
 const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   const [editMode, setEditMode] = useState(false);
@@ -47,11 +48,9 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
 
   return (
     <>
-      <EditButton type="button" onClick={() => toggleEditMode()}>
-        {editMode ? "Save changes" : "Edit"}
-      </EditButton>
       <Xwrapper>
         <TreeStyles>
+          <EditButton onClick={() => toggleEditMode()} editMode={editMode} />
           {rows.map((row) => (
             <TalentRow
               editMode={editMode}
