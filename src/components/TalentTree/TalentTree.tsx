@@ -1,15 +1,39 @@
 import { FC, useState } from "react";
 import { TreeStyles, AddRowButton } from "./talent-tree-styles";
-import TalentNode, { Talent } from "../Talent";
+import { Talent } from "../Talent";
 import TalentRow from "../TalentRow";
 import { Xwrapper } from "react-xarrows";
 import { mockedTree } from "../../mockData";
 import PlusSign from "../PlusSign";
 import { v4 as uuidv4 } from "uuid";
 import EditButton from "../EditButton";
+import styled from "styled-components";
+
+const Layout = styled.div`
+  display: flex;
+  justify-content: space-between;
+  min-height: 100vh;
+  background-color: #88a0a8;
+`;
+
+const Content = styled.section`
+  display: flex;
+  flex: 1;
+  align-self: stretch;
+  justify-content: center;
+  align-items: center;
+`;
+
+const EditMenu = styled.div<EditMenuProps>`
+  background-color: white;
+  width: ${(props) => (props.open ? "400px" : 0)};
+  transition: 1s;
+  right: 400px;
+`;
 
 const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   const [editMode, setEditMode] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleEditMode = () => {
     setEditMode((prevState) => !prevState);
   };
@@ -47,37 +71,29 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   };
 
   return (
-    <>
-      <Xwrapper>
-        <TreeStyles>
-          <EditButton onClick={() => toggleEditMode()} editMode={editMode} />
-          {rows.map((row) => (
-            <TalentRow
-              editMode={editMode}
-              key={row.id}
-              id={row.id}
-              addNode={addNode}
-            >
-              {row.nodes.map((node) => (
-                <TalentNode
-                  name={node.name}
-                  complete={node.completed}
-                  id={node.id}
-                  editMode={editMode}
-                  parent={node.parent}
-                  key={node.id}
-                />
-              ))}
-            </TalentRow>
-          ))}
-          {editMode && (
-            <AddRowButton onClick={() => addRow()}>
-              <PlusSign color="white" />
-            </AddRowButton>
-          )}
-        </TreeStyles>
-      </Xwrapper>
-    </>
+    <Layout>
+      <Content>
+        <Xwrapper>
+          <TreeStyles>
+            <EditButton onClick={() => toggleEditMode()} editMode={editMode} />
+            {rows.map((row) => (
+              <TalentRow
+                editMode={editMode}
+                key={row.id}
+                row={row}
+                addNode={addNode}
+              />
+            ))}
+            {editMode && (
+              <AddRowButton onClick={() => addRow()}>
+                <PlusSign color="white" />
+              </AddRowButton>
+            )}
+          </TreeStyles>
+        </Xwrapper>
+      </Content>
+      <EditMenu open={sidebarOpen}></EditMenu>
+    </Layout>
   );
 };
 
@@ -97,4 +113,8 @@ type TreeNode = {
   completed: boolean;
   name: string;
   parent?: string;
+};
+
+type EditMenuProps = {
+  open: boolean;
 };
