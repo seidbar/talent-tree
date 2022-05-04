@@ -4,10 +4,10 @@ import { Talent } from "../Talent";
 import TalentRow from "../TalentRow";
 import { Xwrapper } from "react-xarrows";
 import { mockedTree } from "../../mockData";
-import PlusSign from "../PlusSign";
 import { v4 as uuidv4 } from "uuid";
 import EditButton from "../EditButton";
 import styled from "styled-components";
+import { RiAddFill } from "react-icons/ri";
 
 const Layout = styled.div`
   display: flex;
@@ -86,7 +86,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
             ))}
             {editMode && (
               <AddRowButton onClick={() => addRow()}>
-                <PlusSign color="white" />
+                <RiAddFill />
               </AddRowButton>
             )}
           </TreeStyles>

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
-import PlusSign from "./PlusSign";
+import { RiAddFill } from "react-icons/ri";
 
 const AddNodeStyles = styled.div`
   display: flex;
@@ -13,6 +13,8 @@ const AddNodeStyles = styled.div`
   height: 80px;
   border-radius: 3px;
   user-select: none;
+  color: white;
+  font-size: 20px;
   transition: background 200ms;
   background-color: #546a76;
   &:hover {
@@ -27,7 +29,7 @@ const AddNodeButton: FC<AddNodeProps> = ({ onClick }) => {
   return (
     <>
       <AddNodeStyles onClick={onClick}>
-        <PlusSign color="white" />
+        <RiAddFill />
       </AddNodeStyles>
     </>
   );
