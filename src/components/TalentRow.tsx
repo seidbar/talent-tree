@@ -37,7 +37,14 @@ const TalentRow: FC<TalentRowProps> = ({
           openSidebar={openSidebar}
         />
       ))}
-      {editMode && <AddNode onClick={() => addNode(row.id)} />}
+      {editMode && (
+        <AddNode
+          onClick={() => {
+            addNode(row.id);
+            openSidebar();
+          }}
+        />
+      )}
     </RowStyles>
   );
 };
