@@ -35,9 +35,9 @@ const AddRowButton = styled.button`
   cursor: pointer;
   color: white;
   font-size: 40px;
-  background-color: #88a0a8;
+  background-color: #546a76;
   &:hover {
-    background-color: #546a76;
+    background-color: #88a0a8;
   }
 `;
 
@@ -47,7 +47,17 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
 
   const [rows, setRows] = useState(mockedTree);
 
-  const addRow = () => {};
+  const addRow = () => {
+    const newRows = [...rows];
+    const newId =
+      rows.reduce(
+        (highest, row) => (highest = highest > row.id ? highest : row.id),
+        0
+      ) + 1;
+    const row = { id: newId, nodes: [] };
+    newRows.push(row);
+    setRows(newRows);
+  };
 
   return (
     <>
@@ -69,7 +79,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
               ))}
             </TalentRow>
           ))}
-          {editMode && <AddRowButton>+</AddRowButton>}
+          {editMode && <AddRowButton onClick={() => addRow()}>+</AddRowButton>}
         </TreeStyles>
       </Xwrapper>
     </>
