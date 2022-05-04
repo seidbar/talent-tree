@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import TalentTree from "./components/TalentTree";
+import TalentTree from "./components/TalentTree/TalentTree";
 
 const Layout = styled.div`
   display: flex;

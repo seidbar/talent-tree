@@ -1,4 +1,6 @@
-export const mockedTree = [
+import { TreeRow } from "./components/TalentTree";
+
+export const mockedTree = <TreeRow[]>[
   {
     id: 0,
     nodes: [

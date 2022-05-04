@@ -1,45 +1,11 @@
-import { FC, useEffect, useState } from "react";
-import styled from "styled-components";
-import TalentNode, { Talent } from "./Talent";
-import TalentRow from "./TalentRow";
+import { FC, useState } from "react";
+import { EditButton, TreeStyles, AddRowButton } from "./talent-tree-styles";
+import TalentNode, { Talent } from "../Talent";
+import TalentRow from "../TalentRow";
 import { Xwrapper } from "react-xarrows";
-import { mockedTree } from "../mockData";
-import PlusSign from "./PlusSign";
-
-const EditButton = styled.button`
-  position: absolute;
-  top: 20px;
-  right: 50px;
-  user-select: none;
-`;
-
-const TreeStyles = styled.div<TreeStyleProps>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  width: ${(props) => (props.width ? `${props.width}px` : "400px")};
-  height: 90vh;
-  padding: 20px;
-  box-shadow: 0px 10px 66px -5px rgba(0, 0, 0, 0.1);
-  background-color: #dbd3c9;
-  border-radius: 8px;
-`;
-
-const AddRowButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: solid #546a76 1px;
-  width: 100%;
-  height: 80px;
-  cursor: pointer;
-  transition: background 200ms;
-  background-color: #546a76;
-  &:hover {
-    background-color: #88a0a8;
-  }
-`;
+import { mockedTree } from "../../mockData";
+import PlusSign from "../PlusSign";
+import { v4 as uuidv4 } from "uuid";
 
 const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   const [editMode, setEditMode] = useState(false);
@@ -47,7 +13,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
     setEditMode((prevState) => !prevState);
   };
 
-  const [rows, setRows] = useState(mockedTree);
+  const [rows, setRows] = useState<TreeRow[]>(mockedTree);
 
   const addRow = () => {
     const newId =
@@ -66,13 +32,17 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
             id: row.id,
             nodes: [
               ...row.nodes,
-              { id: "1000", completed: false, name: "test", parent: undefined },
+              {
+                id: uuidv4(),
+                completed: false,
+                name: "New Talent",
+                parent: undefined,
+              },
             ],
           }
         : row
     );
-
-    console.log({ id });
+    setRows(newRows);
   };
 
   return (
@@ -118,6 +88,14 @@ type TalentTreeProps = {
   talents: Talent[];
 };
 
-type TreeStyleProps = {
-  width?: number;
+export type TreeRow = {
+  id: number;
+  nodes: TreeNode[];
+};
+
+type TreeNode = {
+  id: string;
+  completed: boolean;
+  name: string;
+  parent?: string;
 };
