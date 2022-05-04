@@ -35,7 +35,15 @@ const TalentNode: FC<Talent> = ({
 
   return (
     <>
-      {parent && <Xarrow start={parent} end={id} color="#546A76" />}
+      {parent && (
+        <Xarrow
+          start={parent}
+          end={id}
+          color="#546A76"
+          startAnchor="bottom"
+          endAnchor="top"
+        />
+      )}
       <TalentStyles
         onClick={() => toggleCompletion()}
         completed={completed}

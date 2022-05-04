@@ -6,7 +6,7 @@ export const TreeStyles = styled.div<TreeStyleProps>`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: ${(props) => (props.width ? `${props.width}px` : "400px")};
+  min-width: 400px;
   min-height: 80vh;
   padding: 40px 20px;
   margin: 20px 0;
