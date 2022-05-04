@@ -18,11 +18,19 @@ const TalentStyles = styled.div<TalentStylesProps>`
   transition: background 1s, color 1s;
 `;
 
-const TalentNode: FC<Talent> = ({ name, complete, id, parent, editMode }) => {
+const TalentNode: FC<Talent> = ({
+  name,
+  complete,
+  id,
+  parent,
+  editMode,
+  openSidebar,
+}) => {
   const [completed, setCompleted] = useState<boolean>(complete ?? false);
 
   const toggleCompletion = () => {
     if (!editMode) setCompleted((prevState) => !prevState);
+    else openSidebar();
   };
 
   return (
@@ -51,4 +59,5 @@ export type Talent = {
   complete?: boolean;
   parent?: string;
   editMode?: boolean;
+  openSidebar: () => void;
 };

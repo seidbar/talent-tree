@@ -82,6 +82,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
                 key={row.id}
                 row={row}
                 addNode={addNode}
+                openSidebar={() => setSidebarOpen(true)}
               />
             ))}
             {editMode && (

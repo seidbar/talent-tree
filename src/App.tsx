@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import TalentTree from "./components/TalentTree/TalentTree";
 
 function App() {

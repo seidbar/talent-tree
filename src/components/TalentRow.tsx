@@ -15,7 +15,12 @@ const RowStyles = styled.div<RowStyleProps>`
   margin: 20px 0;
 `;
 
-const TalentRow: FC<TalentRowProps> = ({ editMode, row, addNode }) => {
+const TalentRow: FC<TalentRowProps> = ({
+  editMode,
+  row,
+  addNode,
+  openSidebar,
+}) => {
   // While this is not directly called, this will trigger a re-render on every TalentRow rerender.
   // This could also be achieved with a useEffect hook further up the tree, but would be less snappy
   const updateXarrow = useXarrow();
@@ -29,6 +34,7 @@ const TalentRow: FC<TalentRowProps> = ({ editMode, row, addNode }) => {
           editMode={editMode}
           parent={node.parent}
           key={node.id}
+          openSidebar={openSidebar}
         />
       ))}
       {editMode && <AddNode onClick={() => addNode(row.id)} />}
@@ -42,6 +48,7 @@ type TalentRowProps = {
   editMode?: boolean;
   row: TreeRow;
   addNode: (id: number) => void;
+  openSidebar: () => void;
 };
 
 type RowStyleProps = {
