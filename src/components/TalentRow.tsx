@@ -3,7 +3,7 @@ import styled from "styled-components";
 import AddNode from "./AddNodeButton";
 import { useXarrow } from "react-xarrows";
 import { EditNodeFunction, TreeRow } from "./TalentTree/TalentTree";
-import TalentNode, { Talent } from "./TalentNode";
+import TalentNode from "./TalentNode";
 
 const RowStyles = styled.div<RowStyleProps>`
   display: flex;
@@ -21,6 +21,8 @@ const TalentRow: FC<TalentRowProps> = ({
   addNode,
   editNode,
   toggleCompletion,
+  selectRef,
+  index,
 }) => {
   // While this is not directly called, this will trigger a re-render on every TalentRow rerender.
   // This could also be achieved with a useEffect hook further up the tree, but would be less snappy
@@ -33,14 +35,15 @@ const TalentRow: FC<TalentRowProps> = ({
           key={node.id}
           talent={node}
           editNode={editNode}
-          rowId={row.id}
           toggleCompletion={toggleCompletion}
+          disabled={!!selectRef && selectRef !== index}
+          rowIndex={index}
         />
       ))}
       {editMode && (
         <AddNode
           onClick={() => {
-            addNode(row.id);
+            addNode(index);
           }}
         />
       )}
@@ -56,6 +59,8 @@ type TalentRowProps = {
   addNode: (id: number) => void;
   editNode: EditNodeFunction;
   toggleCompletion: EditNodeFunction;
+  selectRef?: number;
+  index: number;
 };
 
 type RowStyleProps = {
