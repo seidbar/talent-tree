@@ -23,6 +23,7 @@ const TalentRow: FC<TalentRowProps> = ({
   toggleCompletion,
   selectRef,
   index,
+  addLink,
 }) => {
   // While this is not directly called, this will trigger a re-render on every TalentRow rerender.
   // This could also be achieved with a useEffect hook further up the tree, but would be less snappy
@@ -38,6 +39,8 @@ const TalentRow: FC<TalentRowProps> = ({
           toggleCompletion={toggleCompletion}
           disabled={!!selectRef && selectRef - 1 !== index}
           rowIndex={index}
+          selectRef={selectRef}
+          addLink={addLink}
         />
       ))}
       {editMode && (
@@ -62,6 +65,7 @@ type TalentRowProps = {
   toggleCompletion: EditNodeFunction;
   selectRef?: number;
   index: number;
+  addLink: (parentId: string) => void;
 };
 
 type RowStyleProps = {

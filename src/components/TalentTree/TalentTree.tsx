@@ -120,6 +120,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
                 toggleCompletion={toggleCompletion}
                 selectRef={selectRef}
                 index={i}
+                addLink={addLink}
               />
             ))}
             {editMode && (

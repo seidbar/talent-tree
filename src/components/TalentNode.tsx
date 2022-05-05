@@ -27,6 +27,8 @@ const TalentNode: FC<TalentNodeProps> = ({
   toggleCompletion,
   disabled,
   rowIndex,
+  selectRef,
+  addLink,
 }) => {
   const { completed, id, parent, title } = talent;
 
@@ -42,6 +44,7 @@ const TalentNode: FC<TalentNodeProps> = ({
   const handleClick = () => {
     if (!disabled) {
       if (!editMode) toggleCompletion(rowIndex, id);
+      else if (!!selectRef) addLink(id);
       else editNode(rowIndex, id);
     }
   };
@@ -58,7 +61,7 @@ const TalentNode: FC<TalentNodeProps> = ({
         />
       )}
       <TalentStyles
-        onClick={() => handleClick()}
+        onClick={(e) => handleClick()}
         completed={completed ?? false}
         id={id}
         disabled={disabled}
@@ -92,4 +95,6 @@ export type TalentNodeProps = {
   toggleCompletion: EditNodeFunction;
   disabled: boolean;
   rowIndex: number;
+  selectRef?: number;
+  addLink: (parentId: string) => void;
 };
