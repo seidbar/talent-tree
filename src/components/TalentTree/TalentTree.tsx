@@ -79,6 +79,30 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
     setRows(newRows);
   };
 
+  const addLink = () => {
+    const newRows = [...rows];
+    newRows.map((row) =>
+      row.id === editRef?.rowId
+        ? row.nodes.map((node) => {
+            if (node.id === editRef.nodeId) node.parent = "test";
+          })
+        : { ...row }
+    );
+    setRows(newRows);
+  };
+
+  const toggleCompletion: EditNodeFunction = (rowId, nodeId) => {
+    const newRows = [...rows];
+    newRows.map((row) =>
+      row.id === rowId
+        ? row.nodes.map((node) => {
+            if (node.id === nodeId) node.completed = !node.completed;
+          })
+        : { ...row }
+    );
+    setRows(newRows);
+  };
+
   return (
     <Layout>
       <Content>
@@ -92,6 +116,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
                 row={row}
                 addNode={addNode}
                 editNode={editNode}
+                toggleCompletion={toggleCompletion}
               />
             ))}
             {editMode && (
@@ -115,7 +140,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
                 onChange={(e) => handleEdit(e)}
               />
             </>
-            <button>Add Link</button>
+            <button onClick={() => addLink()}>Add Link</button>
           </>
         )}
       </EditMenu>

@@ -13,10 +13,11 @@ const TalentStyles = styled.div<TalentStylesProps>`
   height: 80px;
   border-radius: 3px;
   border: solid #546a76 1px;
-  background: ${(props) => (props.completed ? "#546A76" : "none")};
+  background: ${(props) => (props.completed ? "#546A76" : "white")};
   color: ${(props) => (props.completed ? "white" : "black")};
   user-select: none;
   transition: background 1s, color 1s;
+  z-index: 2;
 `;
 
 const TalentNode: FC<TalentNodeProps> = ({
@@ -24,17 +25,13 @@ const TalentNode: FC<TalentNodeProps> = ({
   editMode,
   editNode,
   rowId,
+  toggleCompletion,
 }) => {
   const { completed, id, parent, title } = talent;
 
   const handleClick = () => {
-    editNode(rowId, id);
-    /*  if (!editMode)
-      setNode((prevState) => ({
-        ...prevState,
-        completed: !prevState.completed,
-      }));
-    else openSidebar(node, setNode); */
+    if (!editMode) toggleCompletion(rowId, id);
+    else editNode(rowId, id);
   };
 
   return (
@@ -76,5 +73,6 @@ export type TalentNodeProps = {
   talent: Talent;
   editMode?: boolean;
   editNode: EditNodeFunction;
+  toggleCompletion: EditNodeFunction;
   rowId: number;
 };

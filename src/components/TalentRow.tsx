@@ -20,6 +20,7 @@ const TalentRow: FC<TalentRowProps> = ({
   row,
   addNode,
   editNode,
+  toggleCompletion,
 }) => {
   // While this is not directly called, this will trigger a re-render on every TalentRow rerender.
   // This could also be achieved with a useEffect hook further up the tree, but would be less snappy
@@ -33,6 +34,7 @@ const TalentRow: FC<TalentRowProps> = ({
           talent={node}
           editNode={editNode}
           rowId={row.id}
+          toggleCompletion={toggleCompletion}
         />
       ))}
       {editMode && (
@@ -53,6 +55,7 @@ type TalentRowProps = {
   row: TreeRow;
   addNode: (id: number) => void;
   editNode: EditNodeFunction;
+  toggleCompletion: EditNodeFunction;
 };
 
 type RowStyleProps = {
