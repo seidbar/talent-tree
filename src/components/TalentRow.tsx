@@ -36,7 +36,7 @@ const TalentRow: FC<TalentRowProps> = ({
           talent={node}
           editNode={editNode}
           toggleCompletion={toggleCompletion}
-          disabled={!!selectRef && selectRef !== index}
+          disabled={!!selectRef && selectRef - 1 !== index}
           rowIndex={index}
         />
       ))}
@@ -45,6 +45,7 @@ const TalentRow: FC<TalentRowProps> = ({
           onClick={() => {
             addNode(index);
           }}
+          disabled={!!selectRef}
         />
       )}
     </RowStyles>

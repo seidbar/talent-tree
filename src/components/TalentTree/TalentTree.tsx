@@ -25,6 +25,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   const toggleEditMode = () => {
     if (editMode) setSidebarOpen(false);
     setEditMode((prevState) => !prevState);
+    setSelectRef(undefined);
   };
 
   const selectedNode = editRef
@@ -80,7 +81,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
 
   const changeAddLinkMode = () => {
     if (!selectRef && editRef) {
-      setSelectRef(editRef?.rowIndex - 1);
+      setSelectRef(editRef?.rowIndex);
     } else setSelectRef(undefined);
   };
 
@@ -138,7 +139,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
           }}
           open={sidebarOpen}
         />
-        {editRef && (
+        {!!editRef && (
           <>
             <>
               <FormField
@@ -148,7 +149,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
                 onChange={(e) => handleEdit(e)}
               />
             </>
-            {selectRef && (
+            {!!selectRef && (
               <h2>
                 Click on a node to set as a parent for {selectedNode?.title}
               </h2>
@@ -157,7 +158,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
               onClick={() => changeAddLinkMode()}
               disabled={editRef.rowIndex === 0}
             >
-              {selectRef ? "Cancel" : "Add a parent"}
+              {!!selectRef ? "Cancel" : "Add a parent"}
             </button>
           </>
         )}
