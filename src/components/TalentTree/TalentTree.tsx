@@ -1,6 +1,6 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { TreeStyles, AddRowButton } from "./talent-tree-styles";
-import { Talent } from "../Talent";
+import { Talent } from "../TalentNode";
 import TalentRow from "../TalentRow";
 import { Xwrapper } from "react-xarrows";
 import { mockedTree } from "../../mockData";
@@ -28,6 +28,7 @@ const Content = styled.section`
 const EditMenu = styled.div<EditMenuProps>`
   position: relative;
   background-color: white;
+  padding: 20px;
   width: ${(props) => (props.open ? "400px" : 0)};
   transition: 1s;
   right: ${(props) => (props.open ? 0 : "-400px")};
@@ -36,12 +37,17 @@ const EditMenu = styled.div<EditMenuProps>`
 const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   const [editMode, setEditMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [editRef, setEditRef] = useState<EditRefProps>();
+  const [rows, setRows] = useState<TreeRow[]>(mockedTree);
+
   const toggleEditMode = () => {
     if (editMode) setSidebarOpen(false);
     setEditMode((prevState) => !prevState);
   };
 
-  const [rows, setRows] = useState<TreeRow[]>(mockedTree);
+  const selectedNode = rows
+    .find((row) => row.id === editRef?.rowId)
+    ?.nodes.find((node) => node.id === editRef?.nodeId);
 
   const addRow = () => {
     const newId =
@@ -63,13 +69,32 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
               {
                 id: uuidv4(),
                 completed: false,
-                name: "New Talent",
+                title: "New Talent",
                 parent: undefined,
               },
             ],
           }
         : row
     );
+    setRows(newRows);
+  };
+
+  const editNode: EditNodeFunction = (rowId, nodeId) => {
+    setSidebarOpen(true);
+    setEditRef({ rowId, nodeId });
+  };
+
+  const handleEdit = (e: ChangeEvent<HTMLInputElement>) => {
+    const newRows = [...rows];
+    console.log(editRef);
+    newRows.map((row) =>
+      row.id === editRef?.rowId
+        ? row.nodes.map((node) => {
+            if (node.id === editRef.nodeId) node.title = e.target.value;
+          })
+        : { ...row }
+    );
+    console.log(newRows);
     setRows(newRows);
   };
 
@@ -85,7 +110,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
                 key={row.id}
                 row={row}
                 addNode={addNode}
-                openSidebar={() => setSidebarOpen(true)}
+                editNode={editNode}
               />
             ))}
             {editMode && (
@@ -97,7 +122,19 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
         </Xwrapper>
       </Content>
       <EditMenu open={sidebarOpen}>
+        <h1>Edit Node</h1>
         <EditButton onClick={() => setSidebarOpen(false)} open={sidebarOpen} />
+        {editRef && (
+          <>
+            <label htmlFor="title">Title</label>
+            <input
+              title="title"
+              value={selectedNode?.title}
+              onChange={(e) => handleEdit(e)}
+            ></input>
+            <button>Add Link</button>
+          </>
+        )}
       </EditMenu>
     </Layout>
   );
@@ -111,16 +148,16 @@ type TalentTreeProps = {
 
 export type TreeRow = {
   id: number;
-  nodes: TreeNode[];
-};
-
-type TreeNode = {
-  id: string;
-  completed: boolean;
-  name: string;
-  parent?: string;
+  nodes: Talent[];
 };
 
 type EditMenuProps = {
   open: boolean;
+};
+
+export type EditNodeFunction = (row: number, id: string) => void;
+
+type EditRefProps = {
+  rowId: number;
+  nodeId: string;
 };

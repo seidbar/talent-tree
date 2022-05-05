@@ -5,7 +5,7 @@ export const mockedTree = <TreeRow[]>[
     id: 0,
     nodes: [
       {
-        name: "Talent 1",
+        title: "Talent 1",
         completed: true,
         id: "test",
         parent: undefined,
@@ -16,7 +16,7 @@ export const mockedTree = <TreeRow[]>[
     id: 1,
     nodes: [
       {
-        name: "Talent 2",
+        title: "Talent 2",
         completed: true,
         id: "test2",
         parent: "test",
@@ -27,13 +27,13 @@ export const mockedTree = <TreeRow[]>[
     id: 2,
     nodes: [
       {
-        name: "Talent 3",
+        title: "Talent 3",
         completed: false,
         id: "test3",
         parent: "test2",
       },
       {
-        name: "Talent 4",
+        title: "Talent 4",
         completed: false,
         id: "test4",
         parent: "test2",
@@ -44,13 +44,13 @@ export const mockedTree = <TreeRow[]>[
     id: 3,
     nodes: [
       {
-        name: "Talent 5",
+        title: "Talent 5",
         completed: false,
         id: "test5",
         parent: "test3",
       },
       {
-        name: "Talent 6",
+        title: "Talent 6",
         completed: false,
         id: "test6",
         parent: "test4",

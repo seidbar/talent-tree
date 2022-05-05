@@ -2,8 +2,8 @@ import { FC } from "react";
 import styled from "styled-components";
 import AddNode from "./AddNodeButton";
 import { useXarrow } from "react-xarrows";
-import { TreeRow } from "./TalentTree/TalentTree";
-import TalentNode from "./Talent";
+import { EditNodeFunction, TreeRow } from "./TalentTree/TalentTree";
+import TalentNode, { Talent } from "./TalentNode";
 
 const RowStyles = styled.div<RowStyleProps>`
   display: flex;
@@ -19,7 +19,7 @@ const TalentRow: FC<TalentRowProps> = ({
   editMode,
   row,
   addNode,
-  openSidebar,
+  editNode,
 }) => {
   // While this is not directly called, this will trigger a re-render on every TalentRow rerender.
   // This could also be achieved with a useEffect hook further up the tree, but would be less snappy
@@ -28,20 +28,17 @@ const TalentRow: FC<TalentRowProps> = ({
     <RowStyles editMode={editMode}>
       {row.nodes.map((node) => (
         <TalentNode
-          name={node.name}
-          complete={node.completed}
-          id={node.id}
           editMode={editMode}
-          parent={node.parent}
           key={node.id}
-          openSidebar={openSidebar}
+          talent={node}
+          editNode={editNode}
+          rowId={row.id}
         />
       ))}
       {editMode && (
         <AddNode
           onClick={() => {
             addNode(row.id);
-            openSidebar();
           }}
         />
       )}
@@ -55,7 +52,7 @@ type TalentRowProps = {
   editMode?: boolean;
   row: TreeRow;
   addNode: (id: number) => void;
-  openSidebar: () => void;
+  editNode: EditNodeFunction;
 };
 
 type RowStyleProps = {

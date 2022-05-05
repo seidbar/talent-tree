@@ -1,6 +1,7 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 import Xarrow from "react-xarrows";
+import { EditNodeFunction } from "./TalentTree/TalentTree";
 
 const TalentStyles = styled.div<TalentStylesProps>`
   display: flex;
@@ -18,19 +19,22 @@ const TalentStyles = styled.div<TalentStylesProps>`
   transition: background 1s, color 1s;
 `;
 
-const TalentNode: FC<Talent> = ({
-  name,
-  complete,
-  id,
-  parent,
+const TalentNode: FC<TalentNodeProps> = ({
+  talent,
   editMode,
-  openSidebar,
+  editNode,
+  rowId,
 }) => {
-  const [completed, setCompleted] = useState<boolean>(complete ?? false);
+  const { completed, id, parent, title } = talent;
 
-  const toggleCompletion = () => {
-    if (!editMode) setCompleted((prevState) => !prevState);
-    else openSidebar();
+  const handleClick = () => {
+    editNode(rowId, id);
+    /*  if (!editMode)
+      setNode((prevState) => ({
+        ...prevState,
+        completed: !prevState.completed,
+      }));
+    else openSidebar(node, setNode); */
   };
 
   return (
@@ -45,11 +49,11 @@ const TalentNode: FC<Talent> = ({
         />
       )}
       <TalentStyles
-        onClick={() => toggleCompletion()}
-        completed={completed}
+        onClick={() => handleClick()}
+        completed={completed ?? false}
         id={id}
       >
-        <p>{name}</p>
+        <p>{title}</p>
       </TalentStyles>
     </>
   );
@@ -62,10 +66,15 @@ type TalentStylesProps = {
 };
 
 export type Talent = {
-  name: string;
+  title: string;
   id: string;
-  complete?: boolean;
+  completed?: boolean;
   parent?: string;
+};
+
+export type TalentNodeProps = {
+  talent: Talent;
   editMode?: boolean;
-  openSidebar: () => void;
+  editNode: EditNodeFunction;
+  rowId: number;
 };
