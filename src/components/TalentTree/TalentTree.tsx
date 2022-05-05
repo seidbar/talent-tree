@@ -1,38 +1,19 @@
-import { ChangeEvent, FC, FormEvent, useState } from "react";
-import { TreeStyles, AddRowButton } from "./talent-tree-styles";
+import { ChangeEvent, FC, useState } from "react";
+import {
+  TreeStyles,
+  AddRowButton,
+  EditMenu,
+  Content,
+  Layout,
+} from "./talent-tree-styles";
 import { Talent } from "../TalentNode";
 import TalentRow from "../TalentRow";
 import { Xwrapper } from "react-xarrows";
 import { mockedTree } from "../../mockData";
 import { v4 as uuidv4 } from "uuid";
 import EditButton from "../EditButton";
-import styled from "styled-components";
 import { RiAddFill } from "react-icons/ri";
-
-const Layout = styled.div`
-  display: flex;
-  justify-content: space-between;
-  min-height: 100vh;
-  background-color: #88a0a8;
-  overflow: hidden;
-`;
-
-const Content = styled.section`
-  display: flex;
-  flex: 1;
-  align-self: stretch;
-  justify-content: center;
-  align-items: center;
-`;
-
-const EditMenu = styled.div<EditMenuProps>`
-  position: relative;
-  background-color: white;
-  padding: 20px;
-  width: ${(props) => (props.open ? "400px" : 0)};
-  transition: 1s;
-  right: ${(props) => (props.open ? 0 : "-400px")};
-`;
+import FormField from "../FormField";
 
 const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   const [editMode, setEditMode] = useState(false);
@@ -60,6 +41,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
   };
 
   const addNode = (rowId: number) => {
+    const nodeId = uuidv4();
     const newRows = rows.map((row) =>
       row.id === rowId
         ? {
@@ -67,7 +49,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
             nodes: [
               ...row.nodes,
               {
-                id: uuidv4(),
+                id: nodeId,
                 completed: false,
                 title: "New Talent",
                 parent: undefined,
@@ -77,6 +59,7 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
         : row
     );
     setRows(newRows);
+    editNode(rowId, nodeId);
   };
 
   const editNode: EditNodeFunction = (rowId, nodeId) => {
@@ -86,7 +69,6 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
 
   const handleEdit = (e: ChangeEvent<HTMLInputElement>) => {
     const newRows = [...rows];
-    console.log(editRef);
     newRows.map((row) =>
       row.id === editRef?.rowId
         ? row.nodes.map((node) => {
@@ -94,7 +76,6 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
           })
         : { ...row }
     );
-    console.log(newRows);
     setRows(newRows);
   };
 
@@ -126,12 +107,14 @@ const TalentTree: FC<TalentTreeProps> = ({ talents }) => {
         <EditButton onClick={() => setSidebarOpen(false)} open={sidebarOpen} />
         {editRef && (
           <>
-            <label htmlFor="title">Title</label>
-            <input
-              title="title"
-              value={selectedNode?.title}
-              onChange={(e) => handleEdit(e)}
-            ></input>
+            <>
+              <FormField
+                id="title"
+                label="Title"
+                value={selectedNode?.title}
+                onChange={(e) => handleEdit(e)}
+              />
+            </>
             <button>Add Link</button>
           </>
         )}
@@ -149,10 +132,6 @@ type TalentTreeProps = {
 export type TreeRow = {
   id: number;
   nodes: Talent[];
-};
-
-type EditMenuProps = {
-  open: boolean;
 };
 
 export type EditNodeFunction = (row: number, id: string) => void;
